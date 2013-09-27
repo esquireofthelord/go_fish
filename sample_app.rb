@@ -1,6 +1,6 @@
 require "sinatra"
 
-go_fish_path = File.expand_path('../../go_fish', __FILE__)
+go_fish_path = File.expand_path('../', __FILE__)
 $LOAD_PATH.unshift(go_fish_path) unless $LOAD_PATH.include?(go_fish_path)
 require 'game'
 require 'player'
