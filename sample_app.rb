@@ -20,6 +20,19 @@ post '/game_setup' do
 end
 
 get '/play_turn' do
-  other_players = @@game.players - [@@game.active_player]
-  erb :play_turn, locals: { current_player: @@game.active_player, other_players: other_players }
+  if @@game.ended?
+    erb :game_over, locals: { winner: @@game.winner }
+  else
+    other_players = @@game.players - [@@game.active_player]
+    erb :play_turn, locals: { current_player: @@game.active_player, other_players: other_players }
+  end
 end
+
+post '/process_turn' do
+  color = params[:card_color]
+  player_name = params[:player_name]
+  target_player = @@game.players.detect { |player| player.name == player_name }
+  @@game.play_turn(target_player, color)
+  redirect to('/play_turn')
+end
+  
